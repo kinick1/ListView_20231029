@@ -1,5 +1,7 @@
 package com.example.listview_20231029
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -52,14 +54,31 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-//        한명의 학생을 오래 클릭하면=> 해당학생 삭제
+//        한명의 학생을 오래 클릭하면=> 정말 지울건지? ok라면=> 해당학생 삭제
         binding.stdListView.setOnItemLongClickListener { adapterView, view, position, l ->
 
-            mStudentList.removeAt(position)  // 내용물 변경 발생
+            val std=mStudentList[position]
 
-            // 어댑터에게 통보
-            mStdAdapter.notifyDataSetChanged()
+            //경고창을 띄어 확인
 
+            val alert=AlertDialog.Builder(this)
+            alert.setTitle("삭제 확인")
+            alert.setMessage("정말 ${std.name}학생을 삭제하겠습니까?")
+            alert.setPositiveButton("확인", DialogInterface.OnClickListener { dialogInterface, i ->
+
+                // 삭제 기능은 확인버튼이 눌릴때 실행
+
+                // 오래 클릭된 학생 => (목록에서) 삭제
+
+                mStudentList.removeAt(position)  // 내용물 변경 발생
+
+                // 어댑터에게 통보
+                mStdAdapter.notifyDataSetChanged()
+
+
+            })
+            alert.setNegativeButton("취소", null)
+            alert.show()
 
             // LongClick이벤트는 Bool 타입의 리턴값을 받도록 되어있음.
 

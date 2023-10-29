@@ -7,6 +7,10 @@ android {
     namespace = "com.example.listview_20231029"
     compileSdk = 33
 
+    dataBinding{
+        enable=true
+    }
+
     defaultConfig {
         applicationId = "com.example.listview_20231029"
         minSdk = 24
